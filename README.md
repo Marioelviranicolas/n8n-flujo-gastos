@@ -59,6 +59,7 @@ Telegram Trigger → Function → Google Sheets
 3. **Activa el flujo** (toggle en la esquina superior derecha)
 
 4. Envía un mensaje a tu bot con el formato:
+   
    ✅ Automáticamente se añadirá una nueva fila en tu Google Sheets  
    ✅ Y el bot te responderá:  
    ✅ Gasto guardado correctamente
