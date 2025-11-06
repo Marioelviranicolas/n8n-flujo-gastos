@@ -1,0 +1,197 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3d213317-cedd-4bcc-8210-9bddcec4a839",
+      "name": "Telegram Trigger",
+      "webhookId": "6adf4b60-08e1-4c9e-99b3-ae655a4cfec2",
+      "credentials": {
+        "telegramApi": {
+          "id": "wO07Iq5J9nIKXvl6",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json[\"message\"][\"text\"];\nconst [tipo, resto] = text.split(\":\");\nif (!resto) return []; // si no hay formato correcto\nconst [cantidad, ...descParts] = resto.trim().split(\" \");\nconst descripcion = descParts.join(\" \");\nreturn [{\n  fecha: new Date().toLocaleString(),\n  tipo: tipo.trim(),\n  cantidad,\n  descripcion\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        0
+      ],
+      "id": "f178c9bc-40db-4185-bf5f-bcd7e8554718",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ounWaHXjOIvgbhXbt6lNhGfiHx2CZ82F_Ipwal2QCUU",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Gastos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ounWaHXjOIvgbhXbt6lNhGfiHx2CZ82F_Ipwal2QCUU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "fecha": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cantidad",
+              "displayName": "cantidad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "descripcion",
+              "displayName": "descripcion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        624,
+        0
+      ],
+      "id": "9c1e6f22-73ef-47c6-abc0-8c82ac6664eb",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ab3LbXpS9HIrr0Sa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{$json[\"message\"][\"chat\"][\"id\"]}}\n",
+        "text": "GASTO GUARDADO!!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        176
+      ],
+      "id": "48be48c6-95d3-4288-b50b-f1ff8c05f362",
+      "name": "Send a text message",
+      "webhookId": "d8a7b50c-809d-4e1a-903f-b373002a9e99",
+      "credentials": {
+        "telegramApi": {
+          "id": "wO07Iq5J9nIKXvl6",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b7b121f1-5250-46f2-a94b-e19667ddc3ae",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6a5f969bf62dbf30988308ea1770d90eab0c8f211f537951bf7ef6d8c8ef66d3"
+  },
+  "id": "qiP1jup7kaK5eOvs",
+  "tags": []
+}
