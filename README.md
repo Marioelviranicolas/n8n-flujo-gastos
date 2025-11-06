@@ -31,7 +31,7 @@ Telegram Trigger → Function → Google Sheets
    
 ---
 
-## ⚙️ Requisitos
+##  Requisitos
 
 ### 🔹 1. Bot de Telegram
 - Crea tu bot desde [@BotFather](https://t.me/BotFather)
@@ -47,7 +47,7 @@ Telegram Trigger → Function → Google Sheets
 
 ---
 
-## 🚀 Cómo usar el flujo
+##  Cómo usar el flujo
 
 1. **Importa** el archivo `.json` en tu n8n  
  → Ve a `Import → Import from file` y selecciona el flujo
